@@ -1,37 +1,37 @@
 <?php
 /**
- * @link https://github.com/consik/yii2-websocket
+ * @link https://github.com/lohn/yii2-websocket
  * @category yii2-extension
- * @package consik\yii2websocket
- * 
+ * @package lohn\yii2websocket
+ *
  * @author Sergey Poltaranin <consigliere.kz@gmail.com>
- * @copyright Copyright (c) 2016
+ * @author igorokb - https://github.com/igorokb/yii2-websocket/
+ * @author Josemar Müller Lohn <j@lo.hn>
+ *
  */
 
-namespace consik\yii2websocket;
+namespace lohn\yii2websocket;
 
-use consik\yii2websocket\events\ExceptionEvent;
-use consik\yii2websocket\events\WSClientCommandEvent;
-use consik\yii2websocket\events\WSClientErrorEvent;
-use consik\yii2websocket\events\WSClientEvent;
-use consik\yii2websocket\events\WSClientMessageEvent;
+use lohn\yii2websocket\events\ExceptionEvent;
+use lohn\yii2websocket\events\WSClientCommandEvent;
+use lohn\yii2websocket\events\WSClientErrorEvent;
+use lohn\yii2websocket\events\WSClientEvent;
+use lohn\yii2websocket\events\WSClientMessageEvent;
 use Ratchet\ConnectionInterface;
 use Ratchet\Http\HttpServer;
 use Ratchet\MessageComponentInterface;
 use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
-use Symfony\Component\Console\Event\ConsoleEvent;
-use Symfony\Component\Console\Event\ConsoleExceptionEvent;
 use yii\base\Component;
 
 class WebSocketServer extends Component implements MessageComponentInterface
 {
     /**
-     * @event yii\base\Event Triggered when binding is successfully completed 
+     * @event yii\base\Event Triggered when binding is successfully completed
      */
     const EVENT_WEBSOCKET_OPEN = 'ws_open';
     /**
-     * @event yii\base\Event Triggered when socket listening is closed 
+     * @event yii\base\Event Triggered when socket listening is closed
      */
     const EVENT_WEBSOCKET_CLOSE = 'ws_close';
     /**
@@ -64,7 +64,6 @@ class WebSocketServer extends Component implements MessageComponentInterface
      */
     const EVENT_CLIENT_END_COMMAND = 'ws_client_end_command';
 
-
     /**
      * @var int $port
      */
@@ -92,7 +91,7 @@ class WebSocketServer extends Component implements MessageComponentInterface
 
     /**
      * @return bool
-     * 
+     *
      * @event yii\base\Event EVENT_WEBSOCKET_OPEN
      * @event ExceptionEvent EVENT_WEBSOCKET_OPEN_ERROR
      */
@@ -115,7 +114,7 @@ class WebSocketServer extends Component implements MessageComponentInterface
 
         } catch (\Exception $e) {
             $errorEvent = new ExceptionEvent([
-                'exception' => $e
+                'exception' => $e,
             ]);
             $this->trigger(self::EVENT_WEBSOCKET_OPEN_ERROR, $errorEvent);
             return false;
@@ -138,10 +137,10 @@ class WebSocketServer extends Component implements MessageComponentInterface
      *
      * @event WSClientEvent EVENT_CLIENT_CONNECTED
      */
-    function onOpen(ConnectionInterface $conn)
+    public function onOpen(ConnectionInterface $conn)
     {
         $this->trigger(self::EVENT_CLIENT_CONNECTED, new WSClientEvent([
-            'client' => $conn
+            'client' => $conn,
         ]));
 
         $this->clients->attach($conn);
@@ -152,10 +151,10 @@ class WebSocketServer extends Component implements MessageComponentInterface
      *
      * @event WSClientEvent EVENT_CLIENT_DISCONNECTED
      */
-    function onClose(ConnectionInterface $conn)
+    public function onClose(ConnectionInterface $conn)
     {
         $this->trigger(self::EVENT_CLIENT_DISCONNECTED, new WSClientEvent([
-            'client' => $conn
+            'client' => $conn,
         ]));
 
         $this->clients->detach($conn);
@@ -167,11 +166,11 @@ class WebSocketServer extends Component implements MessageComponentInterface
      *
      * @event WSClientErrorEvent EVENT_CLIENT_ERROR
      */
-    function onError(ConnectionInterface $conn, \Exception $e)
+    public function onError(ConnectionInterface $conn, \Exception $e)
     {
         $this->trigger(self::EVENT_CLIENT_ERROR, new WSClientErrorEvent([
             'client' => $conn,
-            'exception' => $e
+            'exception' => $e,
         ]));
 
         if ($this->closeConnectionOnError) {
@@ -187,11 +186,11 @@ class WebSocketServer extends Component implements MessageComponentInterface
      * @event WSClientCommandEvent EVENT_CLIENT_RUN_COMMAND
      * @event WSClientCommandEvent EVENT_CLIENT_END_COMMAND
      */
-    function onMessage(ConnectionInterface $from, $msg)
+    public function onMessage(ConnectionInterface $from, $msg)
     {
         $this->trigger(self::EVENT_CLIENT_MESSAGE, new WSClientMessageEvent([
             'client' => $from,
-            'message' => $msg
+            'message' => $msg,
         ]));
 
         if ($this->runClientCommands) {
@@ -200,7 +199,7 @@ class WebSocketServer extends Component implements MessageComponentInterface
             if ($command && method_exists($this, 'command' . ucfirst($command))) {
                 $this->trigger(self::EVENT_CLIENT_RUN_COMMAND, new WSClientCommandEvent([
                     'client' => $from,
-                    'command' => $command
+                    'command' => $command,
                 ]));
 
                 $result = call_user_func([$this, 'command' . ucfirst($command)], $from, $msg);
@@ -208,7 +207,7 @@ class WebSocketServer extends Component implements MessageComponentInterface
                 $this->trigger(self::EVENT_CLIENT_END_COMMAND, new WSClientCommandEvent([
                     'client' => $from,
                     'command' => $command,
-                    'result' => $result
+                    'result' => $result,
                 ]));
             }
         }

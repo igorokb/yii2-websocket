@@ -1,5 +1,5 @@
 <?php
-namespace consik\yii2websocket\events;
+namespace lohn\yii2websocket\events;
 
 class WSClientMessageEvent extends WSClientEvent
 {

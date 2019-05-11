@@ -1,8 +1,8 @@
 # Yii2 [WebSocketServer](/WebSocketServer.php)
 
-[![Latest Stable Version](https://poser.pugx.org/consik/yii2-websocket/v/stable)](https://packagist.org/packages/consik/yii2-websocket)
-[![Total Downloads](https://poser.pugx.org/consik/yii2-websocket/downloads)](https://packagist.org/packages/consik/yii2-websocket)
-[![License](https://poser.pugx.org/consik/yii2-websocket/license)](https://packagist.org/packages/consik/yii2-websocket)
+[![Latest Stable Version](https://poser.pugx.org/lohn/yii2-websocket/v/stable)](https://packagist.org/packages/lohn/yii2-websocket)
+[![Total Downloads](https://poser.pugx.org/lohn/yii2-websocket/downloads)](https://packagist.org/packages/lohn/yii2-websocket)
+[![License](https://poser.pugx.org/lohn/yii2-websocket/license)](https://packagist.org/packages/lohn/yii2-websocket)
 
 Used [Ratchet](http://socketo.me/)
 
@@ -13,7 +13,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-composer require consik/yii2-websocket
+composer require lohn/yii2-websocket
 ```
 
 or add

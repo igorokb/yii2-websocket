@@ -1,5 +1,5 @@
 {
-	"name": "consik/yii2-websocket",
+	"name": "lohn/yii2-websocket",
 	"description": "Yii2 websocket server component",
 	"type": "yii2-extension",
 	"keywords": ["yii2", "websocket", "component", "ratchet"],
@@ -8,6 +8,14 @@
 		{
 			"name": "Sergey Poltaranin (Consik)",
 			"email": "consigliere.kz@gmail.com"
+		},
+		{
+			"name": "igorokb",
+			"homepage": "https://github.com/igorokb/yii2-websocket/"
+		},
+		{
+			"name": "Josemar Müller Lohn",
+			"email": "j@lo.hn"
 		}
 	],
 	"require": {
@@ -16,7 +24,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"consik\\yii2websocket\\": ""
+			"lohn\\yii2websocket\\": ""
 		}
 	}
 }
